@@ -1,0 +1,39 @@
+.Table {
+    border-spacing: 0px;
+    background: #fff;
+    box-shadow: 0 1px 0 0 rgba(22, 29, 37, 0.05);
+    margin: 20px; 
+    
+}
+  
+.Cell-header {
+    padding: 10px;
+    vertical-align: middle;  
+    text-align: left; 
+    font-weight: 360; 
+    border: 1px solid #f4f6f8;
+    font-size: 14px; 
+    min-width: 200px;
+}  
+
+.Cell-body {
+    border: 1px solid #f4f6f8;
+    padding-left: 8px;
+    padding-top: 4px;
+    text-align: left;
+    font-size: 14px; 
+    min-width: 150px;
+    vertical-align: top;  
+    height: 110px;
+
+}
+
+.Cell-null {
+    color: #c2c2c2;
+    font-style: italic;
+}
+
+.Header {
+    background: #f0f5fc
+}
+
