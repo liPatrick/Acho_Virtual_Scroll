@@ -14,7 +14,6 @@ class VirtualScroll extends React.Component {
             headings: [],
             rows: 0, 
             cols: 0, 
-            sampleData: [['1', '2' ,'3'], ['1', '2', '3']]
         })
 
     }
@@ -23,7 +22,7 @@ class VirtualScroll extends React.Component {
 
         console.log('process data')
         
-        let myData = Array.from(this.props.csvData).slice(0,51)
+        let myData = Array.from(this.props.csvData).slice(0,11)
         var newData = [] 
         
         for (let i=0; i<myData.length; i++) {
@@ -40,7 +39,6 @@ class VirtualScroll extends React.Component {
             rows: rows, 
             cols: cols, 
         })
-        console.log(newData)
 
     }
 
@@ -50,23 +48,11 @@ class VirtualScroll extends React.Component {
         }
     }
 
-    
-
     render() {
-
-        
-        
         return (
-            <div>
-                <DataTable headings={this.state.headings} rows={this.state.data}/>
-            </div>
+            <DataTable headings={this.state.headings} rows={this.state.data}/>
         );
     }
-
-    
-
 }
-
-
 
 export default VirtualScroll;

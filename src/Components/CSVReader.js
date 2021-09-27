@@ -1,21 +1,21 @@
 import React, { } from 'react'
 import { CSVReader } from 'react-papaparse'
 
-const buttonRef = React.createRef()
 
 class CSVReader1 extends React.Component{
 
   constructor(props) {
     super(props); 
-    this.state = {
-      
-    }
+
+    this.buttonRef = React.createRef()
+
+   
   }
 
   handleOpenDialog = (e) => {
     // Note that the ref is set async, so it might be null at some point
-    if (buttonRef.current) {
-      buttonRef.current.open(e)
+    if (this.buttonRef.current) {
+      this.buttonRef.current.open(e)
     }
   }
 
@@ -37,8 +37,8 @@ class CSVReader1 extends React.Component{
 
   handleRemoveFile = (e) => {
     // Note that the ref is set async, so it might be null at some point
-    if (buttonRef.current) {
-      buttonRef.current.removeFile(e)
+    if (this.buttonRef.current) {
+      this.buttonRef.current.removeFile(e)
     }
   }
 
@@ -47,7 +47,7 @@ class CSVReader1 extends React.Component{
       <>
         <h5>Basic Upload</h5>
         <CSVReader
-          ref={buttonRef}
+          ref={this.buttonRef}
           onFileLoad={this.handleOnFileLoad}
           onError={this.handleOnError}
           noClick

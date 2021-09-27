@@ -23,7 +23,8 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="App">
+      <div 
+      className="App">
         <CSVReader1 callbackFunc={this.callback} />
         <VirtualScroll ref = {this.changeChild} csvData = {this.state.data}/>
       </div>
