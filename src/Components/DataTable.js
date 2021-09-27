@@ -35,19 +35,19 @@ const setInitialState = settings => {
     end,
   }
 }
+
+const SETTINGS = {
+  itemWidth: 150, 
+  amount: 7, 
+  tolerance: 5, 
+  minIndex: 0,
+  maxIndex: 0, 
+  startIndex: 0, 
+}
 export default class DataTable extends React.Component {
 
   constructor(props) {
     super(props); 
-    const SETTINGS = {
-      itemWidth: 150,
-      amount: 10,
-      tolerance: 5,
-      minIndex: 0,
-      maxIndex: 1106,
-      startIndex: 0
-    };
-    
     this.state = setInitialState(SETTINGS);
     this.viewportElement = React.createRef();
   }
@@ -59,62 +59,67 @@ export default class DataTable extends React.Component {
     }
   }
 
+  
+  componentDidUpdate(prevProps) {
+    console.log('prev props')
+    console.log(prevProps.settings)
+    console.log(this.props.settings)
+    if (prevProps.settings !== this.props.settings) {
+      console.log('here')
+      console.log(this.props.settings)
+      this.setState(setInitialState(this.props.settings))
+
+    }
+  }
+  
+
   runScrolled = ({ target: {scrollLeft} }) => {
-    
-    const {
-      totalWidth, 
-      toleranceWidth, 
-      bufferedItems, 
-      settings: {itemWidth, minIndex}
-    } = this.state; 
-
-    const index = minIndex+Math.floor((scrollLeft-toleranceWidth)/itemWidth); 
-    const begin = Math.max(index, minIndex)
-    const end = Math.min(index+bufferedItems, this.state.settings.maxIndex)
-    const length = end-begin+1
-    const leftPaddingWidth = Math.max((index-minIndex)*itemWidth, 0); 
-    const rightPaddingWidth = Math.max(totalWidth - leftPaddingWidth - length * itemWidth, 0);
-
-    this.setState({
-      leftPaddingWidth, 
-      rightPaddingWidth, 
-      begin, 
-      end,
-    });
+      const {
+        totalWidth, 
+        toleranceWidth, 
+        bufferedItems, 
+        settings: {itemWidth, minIndex}
+      } = this.state; 
+      
+      const index = minIndex+Math.floor((scrollLeft-toleranceWidth)/itemWidth); 
+      const begin = Math.max(index, minIndex)
+      const end = Math.min(index+bufferedItems, this.state.settings.maxIndex)
+      const length = end-begin+1
+      const leftPaddingWidth = Math.max((index-minIndex)*itemWidth, 0); 
+      const rightPaddingWidth = Math.max(totalWidth - leftPaddingWidth - length * itemWidth, 0);
+  
+      this.setState({
+        leftPaddingWidth, 
+        rightPaddingWidth, 
+        begin, 
+        end,
+      });
   };
 
   renderHeadingRow = (_cell, cellIndex) => {
-    let headings = this.props.headings;
-    let newHeadings = headings.slice(this.state.begin, this.state.end)
     return (
         <Cell
         key={`heading-${cellIndex}`}
-        content={newHeadings[cellIndex]}
+        content={_cell}
         header={true}
         />
     )
   };
   
   renderRow = (_row, rowIndex) => {
-    let rows = this.props.rows;
-    let newRows = []
-    for (let i=0; i<rows.length; i++) {
-      newRows.push(rows[i].slice(this.state.begin, this.state.end))
-    }
-
     return (
       <tr key={`row-${rowIndex}`}>
         <div style={{width:this.state.leftPaddingWidth}}></div>
-        {newRows[rowIndex].map((_cell, cellIndex) => {
+        {_row.map((_cell, cellIndex) => {
           return (
             <Cell
               key={`${rowIndex}-${cellIndex}`}
-              content={newRows[rowIndex][cellIndex]}
-              nullContent={newRows[rowIndex][cellIndex].length===0 ? true: false}
+              content={_cell}
+              nullContent={_cell.length===0 ? true: false}
             />
           )
         })}
-        <div style={{width:this.state.leftPaddingWidth}}></div>
+        <div style={{width:this.state.rightPaddingWidth}}></div>
       </tr>
     )
   };
@@ -122,17 +127,24 @@ export default class DataTable extends React.Component {
   render() {
     let {headings, rows} = this.props;
 
+    let newHeadings = headings.slice(this.state.begin, this.state.end)
+    let newRows = []
+    for (let i=0; i<rows.length; i++) {
+      let row = rows[i].slice(this.state.begin, this.state.end)
+      newRows.push(row)
+    }
+
     this.renderHeadingRow = this.renderHeadingRow.bind(this);
     this.renderRow = this.renderRow.bind(this);
 
     const theadMarkup = (
       <tr key="heading">
-        <div style={{width:this.state.leftPaddingWidth}}></div>
-        {headings.map(this.renderHeadingRow)}
-        <div style={{width:this.state.rightPaddingWidth}}></div>
+        <div style={{width: this.state.leftPaddingWidth}}></div>
+        {newHeadings.map(this.renderHeadingRow)}
+        <div style={{width: this.state.rightPaddingWidth}}></div>
       </tr>
     );
-    const tbodyMarkup = rows.map(this.renderRow);
+    const tbodyMarkup = newRows.map(this.renderRow);
 
     return (
         <div
@@ -141,9 +153,12 @@ export default class DataTable extends React.Component {
             style={{
               overflow: 'auto',
               width: this.state.viewportWidth,
+              height: 600,
             }}
         >
-          <table className="Table">
+          <table className="Table"
+          
+          >
             <thead className="Header">{theadMarkup}</thead>
             <tbody>{tbodyMarkup}</tbody>
           </table>

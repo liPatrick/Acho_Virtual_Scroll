@@ -11,7 +11,16 @@ class VirtualScroll extends React.Component {
         this.state = ({
             data: [],
             headings: [],
+            settings: {
+                itemWidth: 150,
+                amount: 7,
+                tolerance: 5,
+                minIndex: 0,
+                maxIndex: 0,
+                startIndex: 0
+              }
         })
+        
     }
 
     processData = () => {        
@@ -25,6 +34,14 @@ class VirtualScroll extends React.Component {
         this.setState({
             headings: newData[0],
             data: newData.slice(1),
+            settings: {
+                itemWidth: 150, 
+                amount: 7, 
+                tolerance: 5, 
+                minIndex: 0,
+                maxIndex: newData[0].length-1, 
+                startIndex: 0, 
+            }
         })
     }
 
@@ -36,7 +53,7 @@ class VirtualScroll extends React.Component {
 
     render() {
         return (
-            <DataTable headings={this.state.headings} rows={this.state.data}/>
+            <DataTable headings={this.state.headings} rows={this.state.data} settings={this.state.settings}/>
         );
     }
 }
