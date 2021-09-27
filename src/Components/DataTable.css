@@ -30,6 +30,7 @@
     max-width: 150px; 
     vertical-align: top;  
     height: 110px;
+    overflow-wrap: break-word; 
 
 }
 

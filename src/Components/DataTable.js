@@ -35,13 +35,10 @@ const setInitialState = settings => {
     end,
   }
 }
-
-
 export default class DataTable extends React.Component {
 
   constructor(props) {
     super(props); 
-
     const SETTINGS = {
       itemWidth: 150,
       amount: 10,
@@ -88,12 +85,7 @@ export default class DataTable extends React.Component {
 
   renderHeadingRow = (_cell, cellIndex) => {
     let headings = this.props.headings;
-    console.log(this.state.begin)
-    console.log(this.state.end)
-
     let newHeadings = headings.slice(this.state.begin, this.state.end)
-
-
     return (
         <Cell
         key={`heading-${cellIndex}`}
@@ -111,39 +103,28 @@ export default class DataTable extends React.Component {
     }
 
     return (
-      
       <tr key={`row-${rowIndex}`}>
-                  <div style={{width:this.state.leftPaddingWidth}}></div>
-
+        <div style={{width:this.state.leftPaddingWidth}}></div>
         {newRows[rowIndex].map((_cell, cellIndex) => {
           return (
-            
             <Cell
               key={`${rowIndex}-${cellIndex}`}
               content={newRows[rowIndex][cellIndex]}
               nullContent={newRows[rowIndex][cellIndex].length===0 ? true: false}
-
             />
           )
         })}
-                  <div style={{width:this.state.leftPaddingWidth}}></div>
-
+        <div style={{width:this.state.leftPaddingWidth}}></div>
       </tr>
     )
   };
 
   render() {
-
-
     let {headings, rows} = this.props;
-
-    console.log('initial')
-    console.log(headings)
 
     this.renderHeadingRow = this.renderHeadingRow.bind(this);
     this.renderRow = this.renderRow.bind(this);
 
-    
     const theadMarkup = (
       <tr key="heading">
         <div style={{width:this.state.leftPaddingWidth}}></div>
@@ -151,9 +132,7 @@ export default class DataTable extends React.Component {
         <div style={{width:this.state.rightPaddingWidth}}></div>
       </tr>
     );
-
     const tbodyMarkup = rows.map(this.renderRow);
-
 
     return (
         <div
@@ -168,7 +147,6 @@ export default class DataTable extends React.Component {
             <thead className="Header">{theadMarkup}</thead>
             <tbody>{tbodyMarkup}</tbody>
           </table>
-
         </div>
     );
   }

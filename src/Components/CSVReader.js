@@ -6,14 +6,10 @@ class CSVReader1 extends React.Component{
 
   constructor(props) {
     super(props); 
-
     this.buttonRef = React.createRef()
-
-   
   }
 
   handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point
     if (this.buttonRef.current) {
       this.buttonRef.current.open(e)
     }
@@ -21,8 +17,6 @@ class CSVReader1 extends React.Component{
 
   handleOnFileLoad = (data) => {
     this.props.callbackFunc(data)
-
-
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -30,13 +24,9 @@ class CSVReader1 extends React.Component{
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
   }
 
   handleRemoveFile = (e) => {
-    // Note that the ref is set async, so it might be null at some point
     if (this.buttonRef.current) {
       this.buttonRef.current.removeFile(e)
     }
