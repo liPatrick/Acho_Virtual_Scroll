@@ -61,12 +61,7 @@ export default class DataTable extends React.Component {
 
   
   componentDidUpdate(prevProps) {
-    console.log('prev props')
-    console.log(prevProps.settings)
-    console.log(this.props.settings)
     if (prevProps.settings !== this.props.settings) {
-      console.log('here')
-      console.log(this.props.settings)
       this.setState(setInitialState(this.props.settings))
 
     }
